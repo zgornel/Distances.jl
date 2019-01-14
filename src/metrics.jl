@@ -324,9 +324,12 @@ function eval_end(dist::RenyiDivergence, s::Tuple{T,T,T,T}) where {T <: Real}
     end
 end
 
-# Combine docs with RenyiDivergence
-@doc (@doc RenyiDivergence) renyi_divergence
-
+# Combine docs with RenyiDivergence.
+# Getting the docstring with @doc causes problems with package compilation.
+# https://github.com/JuliaStats/Distances.jl/issues/113
+let docstring = Base.Docs.getdoc(RenyiDivergence)
+    @doc docstring renyi_divergence
+end
 renyi_divergence(a::AbstractArray, b::AbstractArray, q::Real) = evaluate(RenyiDivergence(q), a, b)
 
 # JSDivergence
